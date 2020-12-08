@@ -12,12 +12,12 @@ func TestErrors(t *testing.T) {
 		t.Fail()
 	}
 
-	eAPI := lib.NewErrorAPI("test_api_error")
+	eAPI := lib.NewErrorAPI(429, "test_api_error")
 	if !lib.IsErrorAPI(eAPI) {
 		t.Error("ErrorAPI not recognised.")
 		t.Fail()
 	}
-	if eAPI.Error() != "test_api_error" {
+	if eAPI.Error() != "429:test_api_error" {
 		t.Errorf("Expected ErrorAPI(test_api_error), got '%s'", eAPI.Error())
 		t.Fail()
 	}

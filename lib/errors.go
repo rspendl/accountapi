@@ -1,5 +1,7 @@
 package lib
 
+import "fmt"
+
 type causer interface {
 	Cause() error
 }
@@ -15,19 +17,21 @@ func ErrorCauser(e error) error {
 
 // ErrorAPI contains an error_message, returned by server.
 type ErrorAPI struct {
+	StatusCode   int
 	ErrorMessage string
 }
 
 // NewErrorAPI ...
-func NewErrorAPI(errMessage string) *ErrorAPI {
+func NewErrorAPI(statusCode int, errMessage string) *ErrorAPI {
 	return &ErrorAPI{
+		StatusCode:   statusCode,
 		ErrorMessage: errMessage,
 	}
 }
 
 // Error ...
 func (e *ErrorAPI) Error() string {
-	return e.ErrorMessage
+	return fmt.Sprintf("%d:%s", e.StatusCode, e.ErrorMessage)
 }
 
 // IsErrorAPI ...

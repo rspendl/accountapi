@@ -78,9 +78,9 @@ func (c *Client) doRequest(method string, endpoint string, jsonRequest io.Reader
 		errMessage := data.ErrorMessage{}
 		err = json.NewDecoder(resp.Body).Decode(&errMessage)
 		if err != nil {
-			return err
+			return lib.NewErrorAPI(resp.StatusCode, err.Error()) // Return status even if there's no valid error message returned.
 		}
-		return lib.NewErrorAPI(errMessage.Message)
+		return lib.NewErrorAPI(resp.StatusCode, errMessage.Message)
 	}
 	if method == "DELETE" { // DELETE does not return anything if it succeeds.
 		return nil
